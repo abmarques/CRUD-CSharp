@@ -2,7 +2,6 @@ C:\Users\a_ber\source\repos\CRUD\CRUD\bin\Debug\CRUD.exe.config
 C:\Users\a_ber\source\repos\CRUD\CRUD\bin\Debug\CRUD.exe
 C:\Users\a_ber\source\repos\CRUD\CRUD\bin\Debug\CRUD.pdb
 C:\Users\a_ber\source\repos\CRUD\CRUD\obj\Debug\CRUD.csprojAssemblyReference.cache
-C:\Users\a_ber\source\repos\CRUD\CRUD\obj\Debug\CRUD.Form1.resources
 C:\Users\a_ber\source\repos\CRUD\CRUD\obj\Debug\CRUD.Properties.Resources.resources
 C:\Users\a_ber\source\repos\CRUD\CRUD\obj\Debug\CRUD.csproj.GenerateResource.cache
 C:\Users\a_ber\source\repos\CRUD\CRUD\obj\Debug\CRUD.csproj.CoreCompileInputs.cache
@@ -68,3 +67,4 @@ C:\Users\a_ber\source\repos\CRUD\CRUD\bin\Debug\ru\Microsoft.ReportViewer.DataVi
 C:\Users\a_ber\source\repos\CRUD\CRUD\bin\Debug\zh-CHS\Microsoft.ReportViewer.DataVisualization.resources.dll
 C:\Users\a_ber\source\repos\CRUD\CRUD\bin\Debug\zh-CHT\Microsoft.ReportViewer.DataVisualization.resources.dll
 C:\Users\a_ber\source\repos\CRUD\CRUD\obj\Debug\CRUD.csproj.CopyComplete
+C:\Users\a_ber\source\repos\CRUD\CRUD\obj\Debug\CRUD.Home.resources

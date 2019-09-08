@@ -10,8 +10,8 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 
 namespace CRUD {
-    public partial class Form1 : Form {
-        public Form1() {
+    public partial class Home : Form {
+        public Home() {
             InitializeComponent();
             
         }
@@ -22,8 +22,8 @@ namespace CRUD {
 
         private void TsbSalvar_Click(object sender, EventArgs e) {
 
-            strSql = "INSERT INTO FUNCIONARIOS (Id, Nome, Endereco, CEP, Bairro, Cidade, UF, Telefone, Celular)" +
-                "VALUES  (@Id, @Nome, @Endereco, @CEP, @Bairro, @Cidade, @UF, @Telefone, @Celular)";
+            strSql = "INSERT INTO FUNCIONARIOS (Id, Nome, Endereco, CEP, Bairro, Cidade, UF, Telefone, Celular, Status)" +
+                "VALUES  (@Id, @Nome, @Endereco, @CEP, @Bairro, @Cidade, @UF, @Telefone, @Celular, @Status)";
             sqlCon = new SqlConnection(strCon);
             SqlCommand comando = new SqlCommand(strSql, sqlCon);
 
@@ -36,24 +36,17 @@ namespace CRUD {
             comando.Parameters.Add("@UF", SqlDbType.VarChar).Value = txtUF.Text;
             comando.Parameters.Add("@Telefone", SqlDbType.VarChar).Value = mskTelefone.Text;
             comando.Parameters.Add("@Celular", SqlDbType.VarChar).Value = mskCelular.Text;
+            comando.Parameters.Add("@Status", SqlDbType.VarChar).Value = txtStatus.Text;
 
             try {
 
                 sqlCon.Open();
                 comando.ExecuteNonQuery();
                 MessageBox.Show("Cadastro realizado com sucesso!");
+                DtgCarregarDados();
 
                 //LIMPA TELA
-                txtId.Clear();
-                tstIdBuscar.Clear();
-                txtNome.Clear();
-                txtEndereco.Clear();
-                mskCEP.Clear();
-                txtBairro.Clear();
-                txtCidade.Clear();
-                txtUF.Clear();
-                mskTelefone.Clear();
-                mskCelular.Clear();
+                ScreenClear();
 
 
             } catch (Exception Err) {
@@ -66,6 +59,7 @@ namespace CRUD {
 
         private void TsbBuscar_Click(object sender, EventArgs e) {
 
+            tsbAlterar.Enabled = true;
             strSql = "SELECT * FROM FUNCIONARIOS WHERE Id=@Id";
             sqlCon = new SqlConnection(strCon);  
             SqlCommand comando = new SqlCommand(strSql, sqlCon);
@@ -89,7 +83,7 @@ namespace CRUD {
                 }
 
                 dr.Read();
-
+        
                 txtId.Text = Convert.ToString(dr["Id"]);
                 txtNome.Text = Convert.ToString(dr["Nome"]);
                 txtEndereco.Text = Convert.ToString(dr["Endereco"]);
@@ -99,6 +93,8 @@ namespace CRUD {
                 txtUF.Text = Convert.ToString(dr["UF"]);
                 mskTelefone.Text = Convert.ToString(dr["Telefone"]);
                 mskCelular.Text = Convert.ToString(dr["Celular"]);
+                txtStatus.Text = Convert.ToString(dr["Status"]);
+
 
             } catch (Exception ex) {
 
@@ -127,6 +123,7 @@ namespace CRUD {
             comando.Parameters.Add("@UF", SqlDbType.VarChar).Value = txtUF.Text;
             comando.Parameters.Add("@Telefone", SqlDbType.VarChar).Value = mskTelefone.Text;
             comando.Parameters.Add("@Celular", SqlDbType.VarChar).Value = mskCelular.Text;
+            comando.Parameters.Add("@Status", SqlDbType.VarChar).Value = txtStatus.Text;
 
             try {
                 sqlCon.Open();
@@ -185,9 +182,9 @@ namespace CRUD {
 
             tsbNovo.Enabled = false;
             tsbSalvar.Enabled = true;
-            tsbAlterar.Enabled = false;
+            tsbAlterar.Enabled = true;
             tsbCancelar.Enabled = true;
-            tsbExcluir.Enabled = false;
+            tsbExcluir.Enabled = true;
             tstIdBuscar.Enabled = false;
             tsbBuscar.Enabled = false;
             txtId.Enabled = true;
@@ -199,6 +196,7 @@ namespace CRUD {
             txtUF.Enabled = true;
             mskTelefone.Enabled = true;
             mskCelular.Enabled = true;
+            txtStatus.Enabled = true;
                         
         }
 
@@ -220,6 +218,7 @@ namespace CRUD {
             txtUF.Enabled = false;
             mskTelefone.Enabled = false;
             mskCelular.Enabled = false;
+            txtStatus.Enabled = false;
                 
             //LIMPA TELA
             ScreenClear();
@@ -239,10 +238,12 @@ namespace CRUD {
             txtUF.Clear();
             mskTelefone.Clear();
             mskCelular.Clear();
+            txtStatus.Clear();
         }
 
         private void Form1_Load(object sender, EventArgs e) {
 
+            
             tsbNovo.Enabled = true;
             tsbSalvar.Enabled = false;
             tsbAlterar.Enabled = false;
@@ -259,11 +260,36 @@ namespace CRUD {
             txtUF.Enabled = false;
             mskTelefone.Enabled = false;
             mskCelular.Enabled = false;
+            txtStatus.Enabled = false;
         }
 
-        private void TsbEmitirRel_Click(object sender, EventArgs e) {
-            RelatorioFrm frmRelatorio = new RelatorioFrm();
-            frmRelatorio.Show();
+        private void btnEmitirRel_Click(object sender, EventArgs e) {
+            DtgCarregarDados();
+           
+        }
+
+        public void DtgCarregarDados() {
+            try {
+
+                strSql = "SELECT * FROM FUNCIONARIOS";
+                sqlCon = new SqlConnection(strCon);
+                SqlCommand comando = new SqlCommand(strSql, sqlCon);
+                sqlCon.Open();
+                comando.CommandType = CommandType.Text;
+                SqlDataAdapter da = new SqlDataAdapter(comando);
+                DataTable dtTable = new DataTable();
+                da.Fill(dtTable);
+                dtgFuncionario.DataSource = dtTable;
+
+
+            } catch (Exception Ex) {
+
+                MessageBox.Show(Ex.Message);
+
+            } finally {
+
+                sqlCon.Close();
+            }
         }
     }
 }
